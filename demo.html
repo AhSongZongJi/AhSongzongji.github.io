@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <base target="_blank" />
+    <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .big {
+        width: 990px;
+        height: 340px;
+        margin: 300px auto;
+        /* background-color: cyan; */
+        display: flex;
+      }
+
+      .box {
+        width: 790px;
+        height: 340px;
+      }
+
+      ul {
+        width: 100%;
+        height: 100%;
+        float: left;
+        flex: 4;
+        position: relative;
+      }
+
+      ul li {
+        position: absolute;
+        display: none;
+      }
+
+      ul li:nth-child(1) {
+        display: block;
+      }
+
+      ol {
+        float: right;
+        width: 200px;
+        flex: 1;
+        overflow: hidden;
+      }
+
+      ol li {
+        width: 100%;
+        height: 43px;
+        border-top: 1px solid #000;
+        background-color: skyblue;
+        box-sizing: border-box;
+        text-align: center;
+        cursor: pointer;
+      }
+      #small {
+        width: 1500px;
+        height: 800px;
+        background-color: cyan;
+        border: 1px solid #000;
+        text-align: center;
+      }
+      #small img {
+        vertical-align: middle;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a href="https://www.baidu.com">baidu </a>
+    <div class="big">
+      <div class="box">
+        <ul>
+          <li>
+            <a href="#"><img src="images/1.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/2.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/3.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/4.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/5.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/6.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/7.jpg" alt=""/></a>
+          </li>
+          <li>
+            <a href="#"><img src="images/8.jpg" alt=""/></a>
+          </li>
+        </ul>
+      </div>
+      <ol>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+        <li>6</li>
+        <li>7</li>
+        <li>8</li>
+      </ol>
+    </div>
+    <div id="small">
+      <img src="images/1.jpg" alt="" />
+    </div>
+
+    <script>
+      var ol = document.querySelector("ol")
+      var olis = ol.querySelectorAll("li")
+      var ul = document.querySelector("ul")
+      var big = document.querySelector(".big")
+      //ul下面的li
+      var ulis = ul.querySelectorAll("li")
+
+      // 1 先给每个ol下面的li注册鼠标移入事件 让对应的ul 里面的li显示
+      for (var i = 0; i < olis.length; i++) {
+        olis[i].index = i
+        olis[i].onmouseover = function() {
+          for (var j = 0; j < olis.length; j++) {
+            ulis[j].style.display = "none"
+          }
+          ulis[this.index].style.display = "block"
+        }
+
+        // 3 鼠标进入解除定时器
+        olis[i].onmouseenter = function() {
+          //排他让每个li的背景颜色是空
+          for (var j = 0; j < olis.length; j++) {
+            olis[j].style.backgroundColor = ""
+          }
+          //自己的颜色变成红色
+          this.style.backgroundColor = "red"
+          clearInterval(time)
+        }
+
+        // 4 鼠标离开开启定时器
+        olis[i].onmouseleave = function() {
+          time = setInterval(function() {
+            k++
+            if (k >= 8) {
+              k = 0
+            }
+            olis[k].onmouseover()
+            for (var i = 0; i < olis.length; i++) {
+              olis[i].style.backgroundColor = ""
+            }
+            olis[k].style.backgroundColor = "red"
+          }, 1000)
+        }
+      }
+
+      // 2 开启定时器
+      var k = 0
+      var time = setInterval(function() {
+        k++
+        if (k >= 8) {
+          k = 0
+        }
+        //让oli跟着定时的自动显示
+        olis[k].onmouseover()
+        //for循环排他
+        for (var i = 0; i < olis.length; i++) {
+          olis[i].style.backgroundColor = ""
+        }
+        //当前li添加背景颜色
+        olis[k].style.backgroundColor = "red"
+      }, 1000)
+    </script>
+  </body>
+</html>
